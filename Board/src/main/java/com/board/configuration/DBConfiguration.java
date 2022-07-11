@@ -37,8 +37,20 @@ public class DBConfiguration {
 	public SqlSessionFactory sqlSessionFactory() throws Exception {
 		SqlSessionFactoryBean factoryBean = new SqlSessionFactoryBean();
 		factoryBean.setDataSource(dataSource());
-//		factoryBean.setMapperLocations(applicationContext.getResources("classpath:/mappers/**/*Mapper.xml"));
+		factoryBean.setMapperLocations(applicationContext.getResources("classpath:/mappers/**/*Mapper.xml"));
+		
+		// prefix 설정 xml의 리턴 타입
+		factoryBean.setTypeAliasesPackage("com.board.domain");
+		
+		factoryBean.setConfiguration(mybatisConfg());
+		
 		return factoryBean.getObject();
+	}
+
+	@Bean
+	@ConfigurationProperties(prefix = "mybatis.configuration")
+	public org.apache.ibatis.session.Configuration mybatisConfg() {
+		return new org.apache.ibatis.session.Configuration();
 	}
 
 	@Bean
