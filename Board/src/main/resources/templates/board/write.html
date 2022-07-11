@@ -1,0 +1,7 @@
+<!DOCTYPE html>
+<!-- 이 파일은 thymeleaf를 사용하는 html 입니다. -->
+<html lang="ko" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<!-- header.html안 main-head를, body.html 안 main-body를 가져온다. -->
+	<head th:replace="board/fragments/header :: main-head"> </head>
+	<body th:replace="board/fragments/body :: main-body"> </body>
+</html>
