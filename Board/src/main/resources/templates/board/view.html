@@ -101,6 +101,7 @@
 					/* 선언 및 초기화 */
 					var html = "";
 
+					/* 동적으로 form 생성 */
 					/* 한줄씩 하는 이유가..? */
 					html += '<form name="dataForm" action="'+uri+'" method="post">';
 						html += '<input type="hidden" name="idx" value="'+idx+'" />';
@@ -108,6 +109,7 @@
 
 					/* body tag 밑에 다음 html 문 추가 */
 					$("body").append(html);
+					/* form 객체 내부 요소에 바로 접근하는 방법 */
 					document.dataForm.submit();
 				}
 			}
