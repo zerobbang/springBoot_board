@@ -46,7 +46,7 @@ public class DBConfiguration {
 		factoryBean.setMapperLocations(applicationContext.getResources("classpath:/mappers/**/*Mapper.xml"));
 		
 		// prefix 설정 xml의 리턴 타입
-		factoryBean.setTypeAliasesPackage("com.board.domain");
+		factoryBean.setTypeAliasesPackage("com.board.*");
 		factoryBean.setConfiguration(mybatisConfg());
 		
 		return factoryBean.getObject();
