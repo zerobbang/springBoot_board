@@ -11,11 +11,16 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
 @Configuration
+// 어노테이션 기반 트랜잭션 활성화 
+@EnableTransactionManagement
 @PropertySource("classpath:/application.properties")
 public class DBConfiguration {
 
@@ -56,6 +61,13 @@ public class DBConfiguration {
 	@Bean
 	public SqlSessionTemplate sqlSession() throws Exception {
 		return new SqlSessionTemplate(sqlSessionFactory());
+	}
+	
+	
+	@Bean
+	public PlatformTransactionManager transactionManager() {
+//		transactionManager 메서드는 스프링에서 제공해주는 트랜잭션 매니저를 빈으로 등록
+		return new DataSourceTransactionManager(dataSource());
 	}
 
 }
