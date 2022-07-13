@@ -6,13 +6,7 @@
 
 <!-- search 영역에 넣기 -->
 	<th:block layout:fragment="search">
-		<form action="#" id="searchform-header" class="searchform js__toggle active pull-right">
-			<input type="search" placeholder="Search..." class="input-search">
-			<button class="mdi mdi-magnify button-search" type="submit">
-			<!-- i: 아이콘 -->
-				<i class="fa fa-search" aria-hidden="true"></i>
-			</button>
-		</form>
+		<div th:replace="board/fragments/common :: search"></div>
 	</th:block>
 
 <!-- content 영역에 넣기 -->
@@ -32,7 +26,7 @@
 					<tr th:if="${not #lists.isEmpty( boardList )}" th:each="row : ${boardList}">
 						<td scope="row" th:text="${#strings.equals( row.noticeYn, 'Y' ) ? '공지' : row.idx}"></td>
 						<td class="text-left">
-							<a th:href="@{/board/view.do( idx=${row.idx} )}" th:text="${row.title}"></a>
+							<a th:href="|@{/board/view.do}${params.makeQueryString(params.currentPageNo)}&idx=${row.idx}|" th:text="${row.title}"></a>
 						</td>
 						<td th:text="${row.writer}"></td>
 						<td th:text="${#temporals.format( row.insertTime, 'yyyy-MM-dd' )}"></td>
@@ -61,6 +55,35 @@
 
 			function movePage(uri, queryString) {
 				location.href = uri + queryString;
+			}
+			
+			function searchBoard(form) {
+				/*[- 드롭다운이 아닌 메인 검색 키워드로 검색했을 때 -]*/
+				if (isEmpty(form) == true) {
+					/* 사용자가 입력한 값의 name mainSearchKeyword를 가져와서 searchKeyword로 선언 */
+					/* 유의 . 자바스크립트의 searchKeyword는 html 의 name이 mainSearchKeyword */
+					var searchKeyword = document.getElementById("mainSearchKeyword");
+					
+					/* 아래 화살표 클릭 안하고 직접 입력한 경우 */
+					if (isEmpty(searchKeyword.value) == true) {
+						alert("키워드를 입력해 주세요.");
+						searchKeyword.focus();
+						return false;
+					}
+
+					/* 직접 입력하는 칸이 안 비었을 경우 */
+					form = document.getElementById("searchForm");
+					/* form.searchKeyword는 아래 호살표를 클릭하고 나오는 키워드 입력칸 */
+					/*  main검색이 안 비워져 있으면 그 값은 화살표 안 키워드 검색 값에 넣는다. */
+					form.searchKeyword.value = searchKeyword.value;
+					form.submit();
+				}
+
+				if (isEmpty(form.searchKeyword.value) == true) {
+					alert("키워드를 입력해 주세요.");
+					form.searchKeyword.focus();
+					return false;
+				}
 			}
 
 			/*]]>*/
